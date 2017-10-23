@@ -75,7 +75,7 @@ if [[ ${DRUGBANK_FILE} ]]; then
 fi
 
 # if provided, copy the pharmGKB relationships file into the /kabob_data container and create a metadata file (.ready)
-if [[ ${DRUGBANK_FILE} ]]; then
+if [[ ${PHARMGKB_RELATIONS_FILE} ]]; then
     echo "Copying PharmGKB file ($PHARMGKB_RELATIONS_FILE) into Docker volume with key: $KB_KEY"
     docker run --rm --volumes-from kabob_data-${KB_KEY} billbaumgartner/kabob-base:0.3 sh -c 'mkdir -p /kabob_data/raw/pharmgkb'
     docker cp "${PHARMGKB_RELATIONS_FILE}" kabob_data-${KB_KEY}:'/kabob_data/raw/pharmgkb/relationships.tsv'
@@ -88,5 +88,5 @@ docker run --rm --volumes-from kabob_data-$KB_KEY billbaumgartner/kabob-base:0.3
 
 
 # Create data source RDF (downloads and processes publicly available databases).
-#chmod 755 scripts/human-ice-rdf-gen.sh
-#scripts/human-ice-rdf-gen.sh ${KB_KEY} ${CONTAINER_COUNT}
+chmod 755 scripts/human-ice-rdf-gen.sh
+scripts/human-ice-rdf-gen.sh ${KB_KEY} ${CONTAINER_COUNT}
